@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <%- include('layouts/head'); -%>
+    <body>
+        <%- include('layouts/siteFrame'); -%>
+        <main>
+            <% if (estAuthentifie) { %>
+                <h2>Bienvenue à La Banque à Joe Violon cher
+                    <% if (estAdmin) { %>
+                        administrateur
+                    <% } else { %>
+                        <%= (utilisateur.prenom || '') + ' ' + (utilisateur.nom || '') %>
+                    <% } %>
+                </h2>
+            <% } else { %>
+                <h2>Bienvenue à La Banque à Joe Violon cher visiteur</h2>                
+            <% } %>
+            <p> <strong> À la Banque à Joe Violon</strong>, nous croyons que la gestion de vos finances devrait être aussi simple et agréable qu'une mélodie bien jouée. Fondée par Joseph "Joe" Violon, un passionné de finance et de musique, notre institution allie tradition et innovation pour vous offrir des services bancaires d'exception.</p>                    
+            <%- include('layouts/messages'); -%>
+        </main>
+        <%- include('layouts/foot'); -%>
+    </body>
+</html>

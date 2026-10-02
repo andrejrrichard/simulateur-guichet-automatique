@@ -1,0 +1,25 @@
+<header>
+    <img src="/img/logo.jpg">
+    <h1>La banque à Joe Violon</h1>
+</header>
+
+<nav class="menu-container">
+    <ul class="menu">  
+        <li><a class="menu-item" href="/">Accueil</a></li>
+        <% if (estAuthentifie) { %>
+            <% if (estAdmin) { %>    
+                <li><a class="menu-item" href="/admin/administration">Administration</a></li> 
+                <% if (guichetEtat) { %>           
+                    <li><a class="menu-item" href="/admin/clients">Clients</a></li>
+                    <li><a class="menu-item" href="/admin/comptes">Comptes</a></li>
+                <% } %>
+                <li><a class="menu-item" href="/admin/transactions">Transactions</a></li>                
+                <li><a class="menu-item" href="/deconnexion">Déconnexion</a></li>
+            <% } else { %>
+                <li><a class="menu-item" href="/client/comptes">Comptes</a></li>
+                <li><a class="menu-item" href="/client/transactions">Transactions</a></li>
+                <li><a class="menu-item" href="/deconnexion">Déconnexion</a></li> 
+            <% } %>
+        <% } else { %><li><a class="menu-item" href="/connexion">Connexion</a></li><% } %>
+    </ul>
+</nav>

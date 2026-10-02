@@ -1,0 +1,22 @@
+<%- include('layouts/formulaireListe', {
+    title: 'Connexion',
+    formTitle: 'Formulaire de connexion',
+    formAction: '/connexion',
+    formContent: `
+        <div>
+            <span>* Ces champs sont obligatoires<span>
+        </div>  
+        <div>
+            <label class="form-item">Code: *</label>
+            <input class="form-item" type="text" name="code" value="${donnees?.code || ''}">
+        </div>
+        <div>
+            <label class="form-item">Nip: *</label>
+            <input class="form-item" type="password" name="motDePasse">
+        </div>
+        <button class="form-button" type="submit">Connexion</button>
+    `,
+    listTitle: '',  
+    listContent: '',
+    helperContent: ''
+}); -%>

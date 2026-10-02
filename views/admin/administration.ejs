@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<%- include('../layouts/head'); -%>
+
+    <body>
+        <%- include('../layouts/siteFrame'); -%>
+            <main>
+                <h2>Administration</h2>
+
+                <%- include('../layouts/messages'); -%>
+
+                <div class="administration-section">
+                    <h4>Solde de la banque : <%= banque_solde %> $</h4>
+                </div>
+                <div class="administration-section">   
+                    <h4>État du guichet :</h4>
+                    <form class="form" method="POST" action="/admin/administration">
+                        <input type="hidden" name="action" value="guichet_toggle">
+                        <div>   
+                            <button class="form-button <%= guichet_etat ? 'administration-ouvert' : 'administration-ferme' %>" type="submit">
+                                <%= guichet_etat ? 'Ouvert' : 'Fermé' %>
+                            </button>                   
+                        </div>                    
+                    </form>
+                </div>
+                <div class="administration-section">
+                    <h4>Argent déposé par les clients dans le guichet : <%= guichet_depot %> $</h4>
+                </div>
+                <div class="administration-section">
+                    <h4>Argent papier disponible dans le guichet : <%= guichet_solde %> $</h4>
+                </div>
+                <% if (guichetEtat) { %>
+                    <div class="administration-section">
+                        <h4>Remplir d'argent papier le guichet pour un montant de ($) :</h4>
+                        <form class="form" method="POST" action="/admin/administration">
+                            <input type="hidden" name="action" value="remplir_guichet">
+                            <div>
+                                <input class="form-item" type="number" name="montant_deposer" step="0.01" min="0.01"
+                                    value="<%= donnees.montant_deposer || '' %>">     
+                                <button class="form-button" type="submit">Déposer</button>                   
+                            </div>                    
+                        </form>
+                    </div>
+                    <div class="administration-section">
+                        <h4>Payer l'intérêt de (1%) sur les comptes épargne :</h4>
+                        <form class="form" method="POST" action="/admin/administration">
+                            <input type="hidden" name="action" value="payer_interets">
+                            <div>   
+                                <button class="form-button" type="submit">Payer</button>                   
+                            </div>                    
+                        </form>
+                    </div>      
+                    <div class="administration-section">
+                        <h4>Prélever l'intérêt de (5%) sur les marges de crédit :</h4>
+                        <form class="form" method="POST" action="/admin/administration">
+                            <input type="hidden" name="action" value="prelever_interets">
+                            <div>   
+                                <button class="form-button" type="submit">Prélever</button>                   
+                            </div>                    
+                        </form>
+                    </div>                
+                    <form class="administration-section" method="POST" action="/admin/administration">
+                        <h4>Prélèvement hypothécaire du compte :</h4>
+                        <input type="hidden" name="action" value="prelevement_hypothecaire">
+                        <select class="form-item" name="compte_hypothecaire_id">
+                            <option value="">Sélectionnez un compte</option>                            
+                            <% if (comptes_hypothecaire && comptes_hypothecaire.length > 0) { %>
+                                <% comptes_hypothecaire.forEach(function(compte) { %>
+                                    <option value="<%= compte.id %>" 
+                                        <%= (donnees.compte_hypothecaire_id && donnees.compte_hypothecaire_id == compte.id) ? 'selected' : '' %>>
+                                        <%= compte.usager %> - <%= compte.numero %> - <%= compte.solde %> $
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                        <h4>au montant de :</h4>
+                        <div>
+                            <input class="form-item" type="number" name="montant_prelever" step="0.01" min="0.01" 
+                            value="<%= donnees.montant_prelever || '' %>">
+                            <button class="form-button" type="submit">Prélever</button>
+                        </div>
+                    </form>
+                <% } %>
+            </main>
+            <%- include('../layouts/foot'); -%>
+    </body>
+</html>

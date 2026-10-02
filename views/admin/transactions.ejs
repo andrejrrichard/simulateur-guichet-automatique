@@ -1,0 +1,67 @@
+<%
+    const tableData = [
+        ['Date', 'Type de transaction', 'Source', 'Destination','Montant ($)']
+    ];
+    
+    if (transactions && transactions.length > 0) {
+        transactions.forEach(transaction => {          
+            tableData.push([
+                transaction.date.toLocaleString(),
+                transaction.transaction_type,
+                transaction.compte_source,
+                transaction.compte_destination,
+                transaction.montant
+            ]);
+        });
+    }
+    
+    const tableHTML = tableHelper(tableData);
+%>
+
+<%- include('../layouts/formulaireListe', {
+    title: 'Transactions',
+    formTitle: "Filtre de transactions",
+    formAction: '/admin/transactions',
+    formContent: `
+        <div>
+            <label class="form-item">Usager:</label>
+            <select class="form-item" name="usagerId">
+                <option value="">Sélectionnez un usager</option>
+                ${usagers ? usagers.map(usager => `
+                    <option value="${usager.id}" 
+                            ${(donnees && donnees.usagerId == usager.id) ? 'selected' : ''}>
+                        ${usager.usager}
+                    </option>
+                `).join('') : ''}
+            </select>
+        </div>  
+        <div>
+            <label class="form-item">Type de transaction:</label>
+            <select class="form-item" name="transactionTypeId">
+                <option value="">Sélectionnez un type de transaction</option>
+                ${transactionTypes ? transactionTypes.map(type => `
+                    <option value="${type.id}" 
+                            ${(donnees && donnees.transactionTypeId == type.id) ? 'selected' : ''}>
+                        ${type.code}
+                    </option>
+                `).join('') : ''}
+            </select>
+        </div>  
+        <div>
+            <label class="form-item">Type de compte:</label>
+            <select class="form-item" name="compteTypeId">
+                <option value="">Sélectionnez un type de compte</option>
+                ${compteTypes ? compteTypes.map(type => `
+                    <option value="${type.id}" 
+                            ${(donnees && donnees.compteTypeId == type.id) ? 'selected' : ''}>
+                        ${type.code}
+                    </option>
+                `).join('') : ''}
+            </select>
+        </div>                           
+        <button class="form-button" type="submit">Afficher</button>
+    `,
+    listTitle: 'Liste des transactions',
+    listContent: tableHTML,
+    helperContent: ''
+}); -%>

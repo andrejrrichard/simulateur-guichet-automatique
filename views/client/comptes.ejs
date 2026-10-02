@@ -1,0 +1,44 @@
+<%
+    const tableData = [
+        ['Type', 'Numéro du compte', 'Solde ($)']
+    ];
+    
+    if (comptes && comptes.length > 0) {
+        comptes.forEach(compte => {          
+            tableData.push([
+                compte.compte_type,
+                compte.numero,
+                compte.solde
+            ]);
+        });
+    }
+    
+    const tableHTML = tableHelper(tableData);
+%>
+
+<%- include('../layouts/formulaireListe', {
+    title: 'Comptes',
+    formTitle: "Formulaire d'ajout d'un compte",
+    formAction: '/client/comptes',
+    formContent: `
+        <div>
+            <span>* Ces champs sont obligatoires<span>
+        </div>  
+        <div>
+            <label class="form-item">Type de compte: *</label>
+            <select class="form-item" name="typeCompteId">
+                <option value="">Sélectionnez un type de compte</option>
+                ${typesCompte ? typesCompte.map(type => `
+                    <option value="${type.id}" 
+                            ${(donnees && donnees.typeCompteId == type.id) ? 'selected' : ''}>
+                        ${type.code}
+                    </option>
+                `).join('') : ''}
+            </select>
+        </div>                
+        <button class="form-button" type="submit">Ajouter</button>
+    `,
+    listTitle: 'Liste des comptes',
+    listContent: tableHTML,
+    helperContent: []
+}); -%>

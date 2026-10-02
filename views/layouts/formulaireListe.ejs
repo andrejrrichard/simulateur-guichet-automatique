@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <%- include('./head'); -%>
+    <body>
+        <%- include('./siteFrame'); -%>
+        <main>
+            <h2><%= title %></h2>  
+
+            <% if (helperContent) { %>
+                <div class="helper-section"> 
+                    <%- helperContent -%>               
+                </div>
+            <% } %>  
+
+            <% if (formTitle) { %>
+                <div class="form-section">                
+                    <h3><%= formTitle %></h3>
+                    <form class="form" method="POST" action="<%= formAction || '' %>">
+                        <%- formContent -%>
+                    </form>
+                </div>
+            <% } %>
+            
+            <%- include('./messages'); -%>
+
+            <% if (listTitle && listContent) { %>
+                <h3><%= listTitle %></h3>                
+                <%- listContent -%>                
+            <% } %>
+        </main>
+        <%- include('./foot'); -%>
+    </body>
+</html>

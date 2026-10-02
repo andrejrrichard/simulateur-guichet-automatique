@@ -1,0 +1,9 @@
+<div class="section-messages">
+    <% if (messages && messages.length > 0) { %>
+        <ul>
+            <% messages.forEach((message)=> { %>
+                <li class="section-messages-message"><%= message %></li>
+            <% }); %>
+        </ul>
+    <% } %>
+</div>

@@ -1,0 +1,57 @@
+<%
+    const tableData = [
+        ['Client', 'Type de compte', 'Numéro du compte', 'Solde ($)']
+    ];
+    
+    if (comptes && comptes.length > 0) {
+        comptes.forEach(compte => {          
+            tableData.push([
+                compte.usager,
+                compte.compte_type,
+                compte.numero,
+                compte.solde
+            ]);
+        });
+    }
+    
+    const tableHTML = tableHelper(tableData);
+%>
+
+<%- include('../layouts/formulaireListe', {
+    title: 'Comptes',
+    formTitle: "Formulaire d'ajout d'un compte",
+    formAction: '/admin/comptes',
+    formContent: `
+        <div>
+            <span>* Ces champs sont obligatoires<span>
+        </div>  
+        <div>
+            <label class="form-item">Client: *</label>
+            <select class="form-item" name="usagerId">
+                <option value="">Sélectionnez un client</option>
+                ${usagers ? usagers.map(usager => `
+                    <option value="${usager.id}" 
+                            ${(donnees && donnees.usagerId == usager.id) ? 'selected' : ''}>
+                        ${usager.usager}
+                    </option>
+                `).join('') : ''}
+            </select>
+        </div> 
+        <div>
+            <label class="form-item">Type de compte: *</label>
+            <select class="form-item" name="typeCompteId">
+                <option value="">Sélectionnez un type de compte</option>
+                ${compteTypes ? compteTypes.map(type => `
+                    <option value="${type.id}" 
+                            ${(donnees && donnees.typeCompteId == type.id) ? 'selected' : ''}>
+                        ${type.code}
+                    </option>
+                `).join('') : ''}
+            </select>
+        </div>                
+        <button class="form-button" type="submit">Ajouter</button>
+    `,
+    listTitle: 'Liste des comptes',
+    listContent: tableHTML,
+    helperContent: ''
+}); -%>

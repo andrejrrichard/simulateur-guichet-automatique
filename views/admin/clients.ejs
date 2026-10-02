@@ -1,0 +1,67 @@
+<%
+    const tableData = [
+        ['Accès', 'Client','Courriel', 'Téléphone']
+    ];
+    
+    if (usagers && usagers.length > 0) {
+        usagers.forEach(usager => {
+            const bloque = usager.bloque;            
+            tableData.push([
+                `<form method="POST" action="/admin/clients/${usager.id}/toggle-bloque">
+                    <button type="submit" class="${bloque ? 'button-non' : 'button-oui'}">
+                        ${bloque ? 'Non' : 'Oui'}
+                    </button>
+                </form>`,
+                usager.usager,
+                usager.courriel || '',
+                usager.telephone || ''
+            ]);
+        });
+    }
+    
+    const tableHTML = tableHelper(tableData);
+%>
+
+<%- include('../layouts/formulaireListe', {
+    title: 'Clients',
+    formTitle: "Formulaire d'ajout d'un client",
+    formAction: '/admin/clients',
+    formContent: `
+        <div>
+            <span>* Ces champs sont obligatoires<span>
+        </div>  
+        <div>
+            <label class="form-item">Code : *</label>
+            <input class="form-item" type="text" name="code" 
+                   value="${donnees?.code || ''}">
+        </div>
+        <div>
+            <label class="form-item">Mot de passe : *</label>
+            <input class="form-item" type="password" name="password">
+        </div>
+        <div>
+            <label class="form-item">Courriel :</label>
+            <input class="form-item" type="email" name="courriel" 
+                   value="${donnees?.courriel || ''}">
+        </div>
+        <div>
+            <label class="form-item">Prénom :</label>
+            <input class="form-item" type="text" name="prenom" 
+                   value="${donnees?.prenom || ''}">
+        </div>
+        <div>
+            <label class="form-item">Nom :</label>
+            <input class="form-item" type="text" name="nom" 
+                   value="${donnees?.nom || ''}">
+        </div>
+        <div>
+            <label class="form-item">Téléphone :</label>
+            <input class="form-item" type="tel" name="telephone" 
+                   value="${donnees?.telephone || ''}">
+        </div>
+        <button class="form-button" type="submit">Ajouter</button>
+    `,
+    listTitle: 'Liste des clients',
+    listContent: tableHTML,
+    helperContent: ''
+}); -%>
